@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Axiom 3D — Product & Industrial Design Portfolio</title>
+<meta name="description" content="Professional 3D product and industrial design portfolio. High-fidelity models, photorealistic renders, and CAD work."/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23cc0000'/><text y='24' x='4' font-size='22' font-family='sans-serif' fill='white' font-weight='bold'>A</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#ffffff;
+    --bg2:#f7f7f7;
+    --bg3:#f0f0f0;
+    --accent:#cc0000;
+    --accent2:#e60000;
+    --text:#1a1a1a;
+    --muted:#666666;
+    --border:#dddddd;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;line-height:1.6;cursor:none;}
+
+  .cursor{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s;}
+  .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease;opacity:.5;}
+
+  /* ── NAV ── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;border-bottom:1px solid transparent;transition:border-color .3s;}
+  nav.scrolled{border-color:var(--border);box-shadow:0 2px 16px rgba(0,0,0,.04);}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em;color:var(--accent);}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;}
+  .nav-links a:hover{color:var(--accent);}
+
+  /* ── HERO ── */
+  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:5rem 3rem;position:relative;overflow:hidden;background:#fff;}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(#eee 1px,transparent 1px),linear-gradient(90deg,#eee 1px,transparent 1px);background-size:60px 60px;opacity:.6;z-index:0;}
+  .hero-red-bar{position:absolute;top:0;right:0;width:6px;height:100%;background:var(--accent);z-index:1;}
+  .hero-label{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;position:relative;z-index:2;}
+  .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,9rem);line-height:.95;letter-spacing:.02em;position:relative;z-index:2;max-width:800px;color:var(--text);}
+  .hero-title span{color:var(--accent);display:block;}
+  .hero-sub{font-size:1rem;color:var(--muted);max-width:420px;margin-top:1.5rem;position:relative;z-index:2;}
+  .hero-cta{margin-top:2.5rem;display:flex;gap:1.5rem;align-items:center;position:relative;z-index:2;}
+  .btn-primary{background:var(--accent);color:#fff;padding:.75rem 2rem;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:.85rem;border:none;cursor:pointer;transition:background .2s,transform .2s;}
+  .btn-primary:hover{background:#aa0000;transform:translateY(-2px);}
+  .btn-ghost{color:var(--text);padding:.75rem 2rem;font-family:'Barlow Condensed',sans-serif;font-weight:400;letter-spacing:.1em;text-transform:uppercase;font-size:.85rem;border:1.5px solid var(--border);background:transparent;cursor:pointer;transition:border-color .2s,color .2s;}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* SolidWorks badge */
+  .sw-badge{position:absolute;top:7rem;right:3rem;z-index:3;display:flex;flex-direction:column;align-items:center;gap:.4rem;}
+  .sw-label{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+  .sw-logo{background:#fff;border:1.5px solid var(--border);padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .sw-text{display:flex;flex-direction:column;line-height:1.1;}
+  .sw-text-top{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:600;letter-spacing:.05em;color:#cc0000;}
+  .sw-text-bot{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;letter-spacing:.15em;color:#555;text-transform:uppercase;}
+
+  .hero-scroll{position:absolute;bottom:2.5rem;right:3rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.75rem;color:var(--muted);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;}
+  .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollAnim 1.5s ease-in-out infinite;}
+  @keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+  /* ── STATS ── */
+  .stats-bar{background:var(--accent);display:flex;justify-content:space-around;padding:2rem 3rem;flex-wrap:wrap;gap:1.5rem;}
+  .stat{text-align:center;}
+  .stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#fff;letter-spacing:.05em;}
+  .stat-label{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7);}
+
+  /* ── SHARED SECTION ── */
+  section{padding:6rem 3rem;}
+  .section-header{margin-bottom:4rem;}
+  .section-tag{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:.75rem;}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;letter-spacing:.03em;color:var(--text);}
+  .section-line{width:60px;height:2px;background:var(--accent);margin-top:1.5rem;}
+
+  /* ── PORTFOLIO ── */
+  #work{background:#fff;}
+  .filter-bar{display:flex;gap:1rem;margin-bottom:3rem;flex-wrap:wrap;}
+  .filter-btn{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:.45rem 1.25rem;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+  .filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(204,0,0,.05);}
+
+  /* --- PORTFOLIO GRID --- */
+  /*
+    TO ADD YOUR WORK:
+    Each .card below has a data-category attribute.
+    Replace the <img> src with your image path, e.g. src="images/my-project.jpg"
+    Change data-category to match your filter buttons.
+    Add card-name and card-cat text.
+  */
+  .portfolio-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.5rem;}
+  .card{position:relative;overflow:hidden;background:var(--bg2);border:1.5px solid var(--border);cursor:pointer;transition:border-color .3s,box-shadow .3s;}
+  .card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(204,0,0,.08);}
+  .card.large{grid-column:span 7;}
+  .card.medium{grid-column:span 5;}
+  .card.small{grid-column:span 4;}
+  .card-inner{aspect-ratio:4/3;position:relative;overflow:hidden;background:var(--bg3);}
+  .card.large .card-inner{aspect-ratio:16/9;}
+  .card-inner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease;}
+  .card:hover .card-inner img{transform:scale(1.04);}
+  /* Placeholder shown when no image is set */
+  .card-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--border);}
+  .card-placeholder svg{width:48px;height:48px;opacity:.4;}
+  .card-placeholder span{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;opacity:.4;}
+  .card-info{padding:1.25rem;display:flex;justify-content:space-between;align-items:flex-end;background:#fff;border-top:1px solid var(--border);}
+  .card-name{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text);}
+  .card-cat{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+  .card-arrow{color:var(--accent);font-size:1.2rem;opacity:0;transform:translateX(-8px);transition:opacity .3s,transform .3s;}
+  .card:hover .card-arrow{opacity:1;transform:translateX(0);}
+  .card.hidden{display:none;}
+
+  /* ── ABOUT ── */
+  #about{background:var(--bg2);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+  .about-visual{position:relative;}
+  .about-frame{width:100%;aspect-ratio:3/4;background:#fff;border:1.5px solid var(--border);overflow:hidden;position:relative;}
+  .about-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .about-frame-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+  .about-accent-line{position:absolute;top:2rem;right:-1rem;width:3px;height:60%;background:var(--accent);}
+  .about-accent-box{position:absolute;bottom:-1.5rem;left:-1.5rem;width:120px;height:120px;background:var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;}
+  .about-accent-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#fff;}
+  .about-accent-txt{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.8);text-align:center;}
+  .about-text p{color:var(--muted);font-size:.95rem;line-height:1.8;margin-bottom:1.5rem;}
+  .skills-list{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem;}
+  .skill-tag{border:1.5px solid var(--border);padding:.35rem 1rem;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);transition:all .2s;}
+  .skill-tag:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* ── SERVICES ── */
+  #services{background:#fff;}
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+  .service-card{background:var(--bg2);border:1.5px solid var(--border);padding:2.5rem 2rem;transition:border-color .3s,background .3s;}
+  .service-card:hover{border-color:var(--accent);background:#fff9f9;}
+  .service-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#ddd;line-height:1;margin-bottom:1.5rem;transition:color .3s;}
+  .service-card:hover .service-num{color:var(--accent);}
+  .service-name{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;color:var(--text);}
+  .service-desc{font-size:.88rem;color:var(--muted);line-height:1.75;}
+
+  /* ── CONTACT ── */
+  #contact{background:var(--bg2);}
+  .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;}
+  .contact-form{display:flex;flex-direction:column;gap:1.25rem;}
+  .form-field{display:flex;flex-direction:column;gap:.5rem;}
+  .form-field label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+  .form-field input,.form-field textarea{background:#fff;border:1.5px solid var(--border);color:var(--text);padding:.85rem 1rem;font-family:'Barlow',sans-serif;font-size:.9rem;font-weight:300;outline:none;transition:border-color .2s;resize:none;}
+  .form-field input:focus,.form-field textarea:focus{border-color:var(--accent);}
+  .form-field textarea{height:130px;}
+  .form-success{display:none;background:rgba(204,0,0,.06);border:1.5px solid var(--accent);padding:1rem;color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;}
+  .contact-item{border-bottom:1.5px solid var(--border);padding-bottom:2rem;margin-bottom:2rem;}
+  .contact-item-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;}
+  .contact-item-value{font-size:1.1rem;color:var(--text);}
+
+  /* ── FOOTER ── */
+  footer{background:var(--text);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+  .footer-copy{font-size:.75rem;color:#888;letter-spacing:.1em;}
+  .footer-links{display:flex;gap:2rem;}
+  .footer-links a{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#888;text-decoration:none;transition:color .2s;}
+  .footer-links a:hover{color:var(--accent);}
+
+  /* ── ANIMATIONS ── */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    nav,#hero,section,footer{padding-left:1.5rem;padding-right:1.5rem;}
+    .card.large,.card.medium,.card.small{grid-column:span 12;}
+    .about-grid,.contact-inner{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr 1fr;}
+    .sw-badge{top:5rem;right:1.5rem;}
+  }
+  @media(max-width:600px){
+    .services-grid{grid-template-columns:1fr;}
+    .hero-cta{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ═══════════════════════════════════════════
+     NAV
+════════════════════════════════════════════ -->
+<nav id="navbar">
+  <!-- 🔧 CUSTOMIZE: Change "AXIOM" to your name or brand -->
+  <div class="logo">AXIOM</div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-red-bar"></div>
+
+  <!-- SolidWorks Badge -->
+  <div class="sw-badge">
+    <span class="sw-label">Powered by</span>
+    <div class="sw-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="4" fill="#cc0000"/>
+        <path d="M6 24 Q10 12 18 14 Q26 16 18 22 Q10 28 18 26 Q26 24 30 18" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="18" cy="18" r="3" fill="#fff" opacity=".3"/>
+      </svg>
+      <div class="sw-text">
+        <span class="sw-text-top">SolidWorks</span>
+        <span class="sw-text-bot">3D CAD Platform</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔧 CUSTOMIZE: Change headline, subtitle below -->
+  <span class="hero-label">3D Product &amp; Industrial Design</span>
+  <h1 class="hero-title">Crafting<br><span>Precision</span><br>In Every Form</h1>
+  <p class="hero-sub">High-fidelity 3D models and industrial renders that bring your product vision to life — before a single prototype is built.</p>
+  <div class="hero-cta">
+    <button class="btn-primary" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">View My Work</button>
+    <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in Touch</button>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     STATS — 🔧 Update numbers to match yours
+════════════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">80+</div><div class="stat-label">Projects Completed</div></div>
+  <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Happy Clients</div></div>
+  <div class="stat"><div class="stat-num">6</div><div class="stat-label">Years Experience</div></div>
+  <div class="stat"><div class="stat-num">12</div><div class="stat-label">Industries Served</div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     WORK / PORTFOLIO
+     HOW TO ADD YOUR PROJECTS: see HOW_TO_ADD_WORK.txt
+════════════════════════════════════════════ -->
+<section id="work">
+  <div class="section-header reveal">
+    <span class="section-tag">Portfolio</span>
+    <h2 class="section-title">Selected Work</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- 🔧 Filter buttons — match the data-category values on your cards -->
+  <div class="filter-bar reveal">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="consumer">Consumer Products</button>
+    <button class="filter-btn" data-filter="industrial">Industrial</button>
+    <button class="filter-btn" data-filter="packaging">Packaging</button>
+    <button class="filter-btn" data-filter="automotive">Automotive</button>
+  </div>
+
+  <div class="portfolio-grid" id="portfolioGrid">
+
+    <!-- ══ PROJECT CARD 1 (large) ══
+         Replace: src="images/YOUR-IMAGE.jpg"
+         Replace: card-name, card-cat, data-category -->
+    <div class="card large reveal" data-category="consumer">
+      <div class="card-inner">
+        <img src="images/project1.jpg" alt="Precision Watch"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="card-placeholder" style="display:none">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/><line x1="24" y1="8" x2="24" y2="16" stroke="currentColor" stroke-width="2"/><line x1="24" y1="32" x2="24" y2="40" stroke="currentColor" stroke-width="2"/><line x1="8" y1="24" x2="16" y2="24" stroke="currentColor" stroke-width="2"/><line x1="32" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Add image: images/project1.jpg</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">Precision Watch</div>
+          <div class="card-cat">Consumer Product / Luxury</div>
+        </div>
+        <div class="card-arrow">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- ══ PROJECT CARD 2 ══ -->
+    <div class="card medium reveal" data-category="industrial">
+      <div class="card-inner">
+        <img src="images/project2.jpg" alt="Studio Monitor"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="card-placeholder" style="display:none">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/><line x1="24" y1="8" x2="24" y2="16" stroke="currentColor" stroke-width="2"/><line x1="24" y1="32" x2="24" y2="40" stroke="currentColor" stroke-width="2"/><line x1="8" y1="24" x2="16" y2="24" stroke="currentColor" stroke-width="2"/><line x1="32" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Add image: images/project2.jpg</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">Studio Monitor</div>
+          <div class="card-cat">Audio Equipment</div>
+        </div>
+        <div class="card-arrow">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- ══ PROJECT CARD 3 ══ -->
+    <div class="card small reveal" data-category="packaging">
+      <div class="card-inner">
+        <img src="images/project3.jpg" alt="Fragrance Bottle"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="card-placeholder" style="display:none">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/><line x1="24" y1="8" x2="24" y2="16" stroke="currentColor" stroke-width="2"/><line x1="24" y1="32" x2="24" y2="40" stroke="currentColor" stroke-width="2"/><line x1="8" y1="24" x2="16" y2="24" stroke="currentColor" stroke-width="2"/><line x1="32" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Add image: images/project3.jpg</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">Fragrance Bottle</div>
+          <div class="card-cat">Packaging Design</div>
+        </div>
+        <div class="card-arrow">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- ══ PROJECT CARD 4 ══ -->
+    <div class="card small reveal" data-category="consumer">
+      <div class="card-inner">
+        <img src="images/project4.jpg" alt="Over-Ear Headphones"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="card-placeholder" style="display:none">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/><line x1="24" y1="8" x2="24" y2="16" stroke="currentColor" stroke-width="2"/><line x1="24" y1="32" x2="24" y2="40" stroke="currentColor" stroke-width="2"/><line x1="8" y1="24" x2="16" y2="24" stroke="currentColor" stroke-width="2"/><line x1="32" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Add image: images/project4.jpg</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">Over-Ear Headphones</div>
+          <div class="card-cat">Consumer Electronics</div>
+        </div>
+        <div class="card-arrow">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- ══ PROJECT CARD 5 ══ -->
+    <div class="card medium reveal" data-category="industrial">
+      <div class="card-inner">
+        <img src="images/project5.jpg" alt="Footwear Concept"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="card-placeholder" style="display:none">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/><line x1="24" y1="8" x2="24" y2="16" stroke="currentColor" stroke-width="2"/><line x1="24" y1="32" x2="24" y2="40" stroke="currentColor" stroke-width="2"/><line x1="8" y1="24" x2="16" y2="24" stroke="currentColor" stroke-width="2"/><line x1="32" y1="24" x2="40" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Add image: images/project5.jpg</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">Footwear Concept</div>
+          <div class="card-cat">Industrial Design</div>
+        </div>
+        <div class="card-arrow">&#8594;</div>
+      </div>
+    </div>
+
+    <!-- ══ ADD MORE CARDS HERE — copy any card block above ══ -->
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT — 🔧 Customize your bio text below
+════════════════════════════════════════════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-frame">
+        <!-- 🔧 Replace with your photo: src="images/about-photo.jpg" -->
+        <img src="images/about-photo.jpg" alt="About me"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="about-frame-placeholder" style="display:none">
+          <svg viewBox="0 0 340 440" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <rect width="340" height="440" fill="#f5f5f5"/>
+            <g fill="none" stroke="#cc0000" stroke-width=".7" opacity=".35">
+              <circle cx="170" cy="200" r="110"/>
+              <ellipse cx="170" cy="200" rx="110" ry="30"/>
+              <ellipse cx="170" cy="200" rx="110" ry="60"/>
+              <ellipse cx="170" cy="200" rx="110" ry="90"/>
+              <ellipse cx="170" cy="200" rx="30" ry="110"/>
+              <ellipse cx="170" cy="200" rx="60" ry="110"/>
+              <ellipse cx="170" cy="200" rx="90" ry="110"/>
+            </g>
+            <circle cx="170" cy="200" r="5" fill="#cc0000"/>
+            <text x="170" y="398" text-anchor="middle" fill="#bbb" font-size="10" font-family="sans-serif" letter-spacing="3">ADD YOUR PHOTO</text>
+          </svg>
+        </div>
+        <div class="about-accent-line"></div>
+      </div>
+      <div class="about-accent-box">
+        <!-- 🔧 Change "6+" to your years of experience -->
+        <span class="about-accent-num">6+</span>
+        <span class="about-accent-txt">Years of mastery</span>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <span class="section-tag">About Me</span>
+      <!-- 🔧 Change headline -->
+      <h2 class="section-title">Turning Ideas<br>Into Objects</h2>
+      <div class="section-line" style="margin-bottom:2rem;"></div>
+      <!-- 🔧 Replace with your own bio -->
+      <p>I'm a 3D product and industrial designer specializing in photorealistic renders and precise modeling that help businesses visualize, validate, and market their products — before production begins.</p>
+      <p>From luxury consumer goods to complex mechanical parts, every model is built with engineering precision and cinematic attention to light, material, and form.</p>
+      <!-- 🔧 Update your software skills -->
+      <div class="skills-list">
+        <span class="skill-tag">SolidWorks</span>
+        <span class="skill-tag">Blender</span>
+        <span class="skill-tag">KeyShot</span>
+        <span class="skill-tag">Rhinoceros 3D</span>
+        <span class="skill-tag">Substance Painter</span>
+        <span class="skill-tag">Cinema 4D</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SERVICES — 🔧 Edit your service offerings
+════════════════════════════════════════════ -->
+<section id="services">
+  <div class="section-header reveal">
+    <span class="section-tag">What I Offer</span>
+    <h2 class="section-title">Services</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-name">Product Visualization</div>
+      <p class="service-desc">Photorealistic 3D renders for e-commerce, advertising, and client presentations — indistinguishable from real photography.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-name">Industrial Modeling</div>
+      <p class="service-desc">Precision CAD models ready for manufacturing, prototyping, or engineering review — built to exact specification.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-name">Concept Design</div>
+      <p class="service-desc">Early-stage 3D concept exploration to iterate on shape, function, and aesthetics before committing to production.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <div class="service-name">Packaging Design</div>
+      <p class="service-desc">Structural packaging models with dieline integration — designed to look as good on shelf as in a render.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <div class="service-name">Animation &amp; Turntables</div>
+      <p class="service-desc">360° product turntables and animated exploded views for product pages, pitches, and trade shows.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">06</div>
+      <div class="service-name">Reverse Engineering</div>
+      <p class="service-desc">Convert physical parts or reference imagery into clean, manufacturable 3D geometry for redesign or documentation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CONTACT — 🔧 Update email & details below
+════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-tag">Let's Work Together</span>
+    <h2 class="section-title">Get in Touch</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-inner">
+    <div class="contact-form reveal">
+      <div class="form-field"><label>Your Name</label><input type="text" id="name" placeholder="Full name"/></div>
+      <div class="form-field"><label>Email Address</label><input type="email" id="email" placeholder="your@email.com"/></div>
+      <div class="form-field"><label>Project Type</label><input type="text" id="project" placeholder="e.g. Product render, packaging..."/></div>
+      <div class="form-field"><label>Message</label><textarea id="message" placeholder="Tell me about your project, timeline, and budget..."></textarea></div>
+      <button class="btn-primary" id="sendBtn" style="align-self:flex-start;margin-top:.5rem;" onclick="handleContact()">Send Message</button>
+      <div class="form-success" id="formSuccess">&#10003; Message sent — I'll get back to you within 24 hours!</div>
+    </div>
+    <div class="reveal">
+      <!-- 🔧 Replace with your real contact details -->
+      <div class="contact-item">
+        <div class="contact-item-label">Email</div>
+        <div class="contact-item-value">hello@yourdomain.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Based In</div>
+        <div class="contact-item-value">Algeria — Available Worldwide</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Response Time</div>
+        <div class="contact-item-value">Within 24 hours</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Availability</div>
+        <div class="contact-item-value">Open to new projects</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER — 🔧 Update social links
+════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-copy">&#169; 2026 Axiom 3D &#8212; All rights reserved</div>
+  <div class="footer-links">
+    <!-- 🔧 Replace # with your real profile URLs -->
+    <a href="#" target="_blank" rel="noopener">Behance</a>
+    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="#" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</footer>
+
+<script>
+  // ── Cursor ──
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 80);
+  });
+
+  // ── Sticky nav ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Portfolio filter ──
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('#portfolioGrid .card').forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // ── Contact form (mailto fallback) ──
+  function handleContact() {
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const project = document.getElementById('project').value.trim();
+    const message = document.getElementById('message').value.trim();
+    if (!name || !email || !message) {
+      alert('Please fill in your name, email, and message.');
+      return;
+    }
+    // Opens the user's mail client pre-filled — replace the email below!
+    const mailto = `mailto:hello@yourdomain.com?subject=Portfolio Inquiry — ${encodeURIComponent(project || 'New Project')}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message)}`;
+    window.location.href = mailto;
+    document.getElementById('formSuccess').style.display = 'block';
+    document.getElementById('sendBtn').disabled = true;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║         HOW TO ADD YOUR WORK TO THE PORTFOLIO WEBSITE               ║
+║         Axiom 3D — Portfolio by Claude / Anthropic                  ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+This guide walks you through every step: adding images, editing text,
+customizing personal info, and deploying updates to Vercel.
+
+────────────────────────────────────────────────────────────────────────
+STEP 1 — PREPARE YOUR IMAGES
+────────────────────────────────────────────────────────────────────────
+
+Export your 3D render or screenshot from SolidWorks / Blender / KeyShot.
+
+  Recommended settings:
+  • Format : JPG or WebP (WebP preferred — 30% smaller)
+  • Size   : 1200 × 800 px minimum (wider is fine)
+  • Quality: 85–90% (good balance of quality vs file size)
+  • DPI    : 72 (screen only, print DPI doesn't matter here)
+
+  Name your files clearly, no spaces:
+    ✅  turbine-housing.jpg
+    ✅  watch-render-v2.webp
+    ❌  My Render Final FINAL (2).jpg   ← spaces & special chars cause problems
+
+
+────────────────────────────────────────────────────────────────────────
+STEP 2 — PUT IMAGES IN THE RIGHT FOLDER
+────────────────────────────────────────────────────────────────────────
+
+Copy your image files into:
+
+    portfolio/
+    └── public/
+        └── images/          ← HERE
+            ├── project1.jpg
+            ├── project2.jpg
+            └── ...
+
+The website already expects these default names:
+  project1.jpg   → Card 1 (the large wide card)
+  project2.jpg   → Card 2
+  project3.jpg   → Card 3
+  project4.jpg   → Card 4
+  project5.jpg   → Card 5
+  about-photo.jpg → Your photo in the About Me section
+
+If an image is missing, the card shows a grey placeholder automatically —
+nothing will break.
+
+
+────────────────────────────────────────────────────────────────────────
+STEP 3 — EDIT THE CARD TEXT (project name, category)
+────────────────────────────────────────────────────────────────────────
+
+Open:  public/index.html  in any text editor (Notepad, VS Code, etc.)
+
+Search for (Ctrl+F):  "PROJECT CARD 1"
+
+You will find a block like this:
+
+    <div class="card large reveal" data-category="consumer">
+      <div class="card-inner">
+        <img src="images/project1.jpg" alt="Precision Watch" .../>
+        ...
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">Precision Watch</div>        ← change this
+          <div class="card-cat">Consumer Product / Luxury</div> ← and this
+        </div>
+      </div>
+    </div>
+
+  To update:
+  1. Change  src="images/project1.jpg"  →  src="images/YOUR-FILE-NAME.jpg"
+  2. Change the alt=""  to describe your project
+  3. Change  card-name  to your project title
+  4. Change  card-cat   to the category shown under the title
+  5. Change  data-category  to match a filter button (see below)
+
+  data-category options (must match exactly):
+    consumer     → "Consumer Products" filter button
+    industrial   → "Industrial" filter button
+    packaging    → "Packaging" filter button
+    automotive   → "Automotive" filter button
+
+  Example of a finished card:
+
+    <div class="card large reveal" data-category="industrial">
+      <div class="card-inner">
+        <img src="images/turbine-housing.jpg" alt="Turbine Housing Render" .../>
+        ...
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">Turbine Housing</div>
+          <div class="card-cat">Industrial / Aerospace</div>
+        </div>
+      </div>
+    </div>
+
+
+────────────────────────────────────────────────────────────────────────
+STEP 4 — ADD MORE PROJECT CARDS (optional)
+────────────────────────────────────────────────────────────────────────
+
+At the end of the portfolio grid in index.html, find this comment:
+
+    <!-- ══ ADD MORE CARDS HERE — copy any card block above ══ -->
+
+Paste a new card block there. You can use three sizes:
+
+  LARGE  (wide, spans 7 columns):
+    <div class="card large reveal" data-category="consumer">
+
+  MEDIUM (spans 5 columns):
+    <div class="card medium reveal" data-category="industrial">
+
+  SMALL  (spans 4 columns, three fit in a row):
+    <div class="card small reveal" data-category="packaging">
+
+Tip: alternate large + medium, or small + small + small for visual variety.
+
+Example of a new card to copy-paste:
+
+    <div class="card medium reveal" data-category="industrial">
+      <div class="card-inner">
+        <img src="images/my-new-project.jpg" alt="My New Project"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="card-placeholder" style="display:none">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Add image: images/my-new-project.jpg</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <div>
+          <div class="card-name">My New Project</div>
+          <div class="card-cat">Industrial / Mechanical</div>
+        </div>
+        <div class="card-arrow">&#8594;</div>
+      </div>
+    </div>
+
+
+────────────────────────────────────────────────────────────────────────
+STEP 5 — PERSONALIZE YOUR DETAILS
+────────────────────────────────────────────────────────────────────────
+
+All the things to change are marked with  🔧  comments in index.html.
+Here is a quick checklist:
+
+  [ ] Logo / Brand name
+      Search: <div class="logo">AXIOM</div>
+      Replace AXIOM with your name or studio name.
+
+  [ ] Hero headline & subtitle
+      Search: <h1 class="hero-title">
+      Change the headline words.
+      Search: <p class="hero-sub">
+      Change the description text.
+
+  [ ] Stats bar (projects, clients, years)
+      Search: <div class="stats-bar">
+      Update the four numbers to reflect your real experience.
+
+  [ ] About bio text
+      Search: <!-- 🔧 Replace with your own bio -->
+      Rewrite the two <p> paragraphs with your story.
+
+  [ ] Years of experience badge
+      Search: <span class="about-accent-num">6+</span>
+      Change 6+ to your real number.
+
+  [ ] Software skills
+      Search: <div class="skills-list">
+      Add or remove <span class="skill-tag"> items.
+
+  [ ] Contact email
+      Search: hello@yourdomain.com  (appears twice — in the info block AND
+      in the mailto link in the <script> at the bottom)
+      Replace both with your real email.
+
+  [ ] Contact details (location, availability)
+      Search: <div class="contact-item">
+      Edit the four info blocks.
+
+  [ ] Social links
+      Search: <!-- 🔧 Replace # with your real profile URLs -->
+      Replace the three href="#" with your Behance, LinkedIn, Instagram URLs.
+
+  [ ] Footer copyright name
+      Search: Axiom 3D
+      Replace with your name.
+
+  [ ] Page title (shown in browser tab)
+      Search: <title>Axiom 3D
+      Change to your name.
+
+
+────────────────────────────────────────────────────────────────────────
+STEP 6 — ADD A NEW FILTER CATEGORY (optional)
+────────────────────────────────────────────────────────────────────────
+
+If you need a new filter button (e.g. "Medical"):
+
+  1. In index.html, find the filter-bar div and add:
+       <button class="filter-btn" data-filter="medical">Medical</button>
+
+  2. Add  data-category="medical"  to any cards you want in that category.
+
+The JavaScript filter code works automatically with any data-filter value.
+
+
+────────────────────────────────────────────────────────────────────────
+STEP 7 — DEPLOY YOUR CHANGES TO VERCEL
+────────────────────────────────────────────────────────────────────────
+
+Every time you update files, redeploy in 3 clicks:
+
+  Option A — Drag & Drop (easiest):
+  1. Go to vercel.com → your project dashboard
+  2. Click "Deployments" → "Deploy" → "Upload"
+  3. Drag the entire portfolio/ folder → Deploy
+
+  Option B — GitHub (best for ongoing updates):
+  1. Create a free GitHub account at github.com
+  2. Create a new repository, upload your portfolio/ folder
+  3. In Vercel, connect your GitHub repo
+  4. From now on: every time you push to GitHub, Vercel auto-deploys ✅
+
+  Custom Domain (optional):
+  In Vercel dashboard → your project → "Settings" → "Domains"
+  Add your domain (e.g. yourname.com) and follow the DNS instructions.
+
+
+────────────────────────────────────────────────────────────────────────
+QUICK TROUBLESHOOTING
+────────────────────────────────────────────────────────────────────────
+
+  Image not showing?
+  → Check the filename matches exactly (case-sensitive on Vercel)
+     images/Project1.jpg  ≠  images/project1.jpg
+  → Make sure the file is in public/images/ not just the root folder.
+
+  Filter not working?
+  → Make sure data-category on the card matches data-filter on the button
+     exactly, including lowercase.
+
+  Contact form not sending?
+  → The form uses mailto: which opens your email client.
+     For a real server-side form, sign up at formspree.io (free) and
+     replace the form action. Ask Claude for help if needed.
+
+  Text looks wrong on mobile?
+  → The site is responsive. If something looks off, try a hard refresh
+     (Ctrl+Shift+R) or check your edits for unclosed HTML tags.
+
+
+────────────────────────────────────────────────────────────────────────
+FILE SUMMARY
+────────────────────────────────────────────────────────────────────────
+
+  portfolio/
+  ├── vercel.json              Vercel deployment config — do not edit
+  ├── README.md                Short deploy guide
+  ├── HOW_TO_ADD_WORK.txt      ← You are here
+  └── public/
+      ├── index.html           Main website — edit this file
+      └── images/
+          ├── project1.jpg     Your render images go here
+          ├── project2.jpg
+          ├── ...
+          └── about-photo.jpg  Your personal/studio photo
+
+Good luck — your portfolio is going to look great!

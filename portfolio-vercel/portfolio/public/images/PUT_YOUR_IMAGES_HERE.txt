@@ -1,0 +1,14 @@
+Drop your project images into this folder.
+
+Naming convention used in index.html:
+  project1.jpg  → Card 1 (large hero card)
+  project2.jpg  → Card 2
+  project3.jpg  → Card 3
+  project4.jpg  → Card 4
+  project5.jpg  → Card 5
+  about-photo.jpg → Your photo in the About section
+
+Supported formats: JPG, PNG, WebP (WebP recommended — smaller file size, same quality)
+Recommended size: 1200×800px minimum, 72dpi, exported from your render software.
+
+See HOW_TO_ADD_WORK.txt in the root folder for full instructions.
